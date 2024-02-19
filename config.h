@@ -75,7 +75,7 @@ static const char *mutevol[]   	 		= { "/usr/bin/wpctl",   "set-mute",   "@DEFAU
 static const char *lightup[]  	 		= { "/usr/bin/light",   "-A", "10", NULL };
 static const char *lightdown[]   		= { "/usr/bin/light",   "-U", "10", NULL };
 
-static const char *slockcmd[]		 		= { "/usr/bin/slock", NULL };
+static const char *slockcmd[]		 		= { "/usr/local/bin/slock", NULL };
 
 //static const char *xclipcmd[]       = { "xclip",  };
 static const char xclipimg[]       = "xclip -selection clipboard -t image/png $f";
