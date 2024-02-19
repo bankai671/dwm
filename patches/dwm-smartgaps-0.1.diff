@@ -1,0 +1,41 @@
+From e11d4984383e3d6cd66dc518ae20ad35ddf3356f Mon Sep 17 00:00:00 2001
+From: John Doe <pavelvlas671@gmail.com>
+Date: Sat, 10 Feb 2024 18:08:50 +0100
+Subject: [PATCH] add smart gaps functionality
+
+---
+ config.h | 1 +
+ dwm.c    | 5 ++++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/config.h b/config.h
+index b099774..5f32817 100644
+--- a/config.h
++++ b/config.h
+@@ -6,6 +6,7 @@
+ /* appearance */
+ static const unsigned int borderpx  = 1;        /* border pixel of windows */
+ static const unsigned int gappx			= 6;				/* gaps between windows */
++static const unsigned int smartgaps = 1;				/* 0 means use gaps for single tiled window */
+ static const unsigned int snap      = 32;       /* snap pixel */
+ static const int showbar            = 1;        /* 0 means no bar */
+ static const int topbar             = 1;        /* 0 means bottom bar */
+diff --git a/dwm.c b/dwm.c
+index 986241d..a62c159 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -1837,7 +1837,10 @@ tile(Monitor *m)
+ 	else
+ 		mw = m->ww - m->gappx;
+ 	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+-		if (i < m->nmaster) {
++		if (smartgaps && n == 1) {
++			h = (m->mh - my) / (MIN(n, m->nmaster) - i);
++			resize(c, m->wx, m->wy, mw - (2*c->bw) + m->gappx, h - (2*c->bw), 0);
++		}	else if (i < m->nmaster) {
+ 			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
+ 			resize(c, m->wx + m->gappx, m->wy + my, mw - (2*c->bw) - m->gappx, h - (2*c->bw), 0);
+ 			if (my + HEIGHT(c) + m->gappx < m->wh)
+-- 
+2.43.0
+
